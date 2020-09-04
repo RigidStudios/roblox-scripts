@@ -98,7 +98,7 @@ function mather:Calculate(str)
 	};
 	
 	local remainingOperations = 0;
-	for k, v in pairs(usablePatterns) do
+	for _, v in pairs(usablePatterns) do
 		repeat
 			str, remainingOperations = v(str);
 		until not remainingOperations or remainingOperations == 0;
