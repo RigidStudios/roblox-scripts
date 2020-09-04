@@ -1,5 +1,6 @@
 local mather = {};
 
+-- LuaPatterns for numbers and operations.
 local patterns = {};
 patterns.num     = "%-?%d+%.?%d*";
 patterns.mult    = "%s-%*%s-";
@@ -10,16 +11,18 @@ patterns.minus   = "%s-%-%s-";
 patterns.div     = "%s-%/%s-";
 patterns.parentheses = "%b()"
 
--- Get Numbers.
+-- Extract numbers from string where possible.
 function mather:GetNums(str)
+	print(str);
 	local numbers = {};
-	local str = str:gsub("%s", "");
 	for number in str:gmatch(patterns.num) do
 		table.insert(numbers, tonumber(number));
 	end;
 	return numbers;
 end
 
+
+-- PLUS (+)
 function mather.plus(str)
 	local res, remaining = str:gsub(patterns.num..patterns.plus..patterns.num, function(secondStr)
 		local newNums = mather:GetNums(secondStr);
@@ -30,8 +33,8 @@ end
 
 function mather.minus(str)
 	local res, remaining = str:gsub(patterns.num..patterns.minus..patterns.num, function(secondStr)
-		local newNums = mather:GetNums(secondStr);
-		return newNums[1] - newNums[2]; -- Culprit should be here, but it doesn't seem to be.
+		local newNums = mather:GetNums(secondStr:gsub("("..patterns.num.."%s-)(%-)(%s-"..patterns.num..")", function(a, b, c) print(a, b, c) return a.." "..c end));
+		return newNums[1] - newNums[2];
 	end);
 	return res, remaining;
 end
@@ -73,6 +76,7 @@ function mather.parentheses(str)
 end
 
 function mather:Calculate(str)
+	
 	local usablePatterns = {
 		mather.parentheses;
 		mather.percent;
