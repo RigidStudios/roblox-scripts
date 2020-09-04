@@ -13,7 +13,6 @@ patterns.parentheses = "%b()"
 
 -- Extract numbers from string where possible.
 function mather:GetNums(str)
-	print(str);
 	local numbers = {};
 	for number in str:gmatch(patterns.num) do
 		table.insert(numbers, tonumber(number));
@@ -31,14 +30,17 @@ function mather.plus(str)
 	return res, remaining;
 end
 
+-- MINUS (-)
 function mather.minus(str)
 	local res, remaining = str:gsub(patterns.num..patterns.minus..patterns.num, function(secondStr)
+		-- Remove the matched string minus to not consider negative: 4/9/20
 		local newNums = mather:GetNums(secondStr:gsub("("..patterns.num.."%s-)(%-)(%s-"..patterns.num..")", function(a, b, c) print(a, b, c) return a.." "..c end));
 		return newNums[1] - newNums[2];
 	end);
 	return res, remaining;
 end
 
+-- PERCENT (%)
 function mather.percent(str)
 	local res, remaining = str:gsub(patterns.num..patterns.percent, function(secondStr)
 		local newNums = mather:GetNums(secondStr);
@@ -47,6 +49,7 @@ function mather.percent(str)
 	return res, remaining;
 end
 
+-- DIVISION (/)
 function mather.div(str)
 	local res, remaining = str:gsub(patterns.num..patterns.div..patterns.num, function(secondStr)
 		local newNums = mather:GetNums(secondStr);
@@ -55,6 +58,7 @@ function mather.div(str)
 	return res, remaining;
 end
 
+-- MULTIPLICATION (*)
 function mather.mult(str)
 	local res, remaining = str:gsub(patterns.num..patterns.mult..patterns.num, function(secondStr)
 		local newNums = mather:GetNums(secondStr);
@@ -63,26 +67,32 @@ function mather.mult(str)
 	return res, remaining;
 end
 
+-- MULTIPLICATION (x)
 function mather.mult2(str)
 	return mather.mult(str:gsub("x", "*"));
 end
 
+-- PARENTHESES ((...))
 function mather.parentheses(str)
 	local res, remaining = str:gsub(patterns.parentheses, function(secondStr)
+		-- Remove parentheses to re-calculate.
 		secondStr = secondStr:sub(2, -2);
 		return mather:Calculate(secondStr);
 	end)
 	return res, remaining;
 end
 
+-- Calculate whole string.
 function mather:Calculate(str)
-	
+	-- Patterns to perform.
 	local usablePatterns = {
 		mather.parentheses;
+		
 		mather.percent;
 		mather.mult;
 		mather.mult2;
 		mather.div;
+		
 		mather.minus;
 		mather.plus;
 	};
