@@ -1,12 +1,13 @@
 local mather = {};
 
 local patterns = {};
-patterns.num = "%-?%d+%.?%d*";
-patterns.mult = "%s-%*%s-";
-patterns.mult2 = "%s-%x%s-";
-patterns.plus = "%s-%+%s-";
-patterns.minus = "%s-%-%s-";
-patterns.div = "%s-%/%s-";
+patterns.num     = "%-?%d+%.?%d*";
+patterns.mult    = "%s-%*%s-";
+patterns.mult2   = "%s-%x%s-";
+patterns.plus    = "%s-%+%s-";
+patterns.percent = "%s-%%%s-";
+patterns.minus   = "%s-%-%s-";
+patterns.div     = "%s-%/%s-";
 patterns.parentheses = "%b()"
 
 -- Get Numbers.
@@ -30,7 +31,15 @@ end
 function mather.minus(str)
 	local res, remaining = str:gsub(patterns.num..patterns.minus..patterns.num, function(secondStr)
 		local newNums = mather:GetNums(secondStr);
-		return newNums[1] - newNums[2];
+		return newNums[1] - newNums[2]; -- Culprit should be here, but it doesn't seem to be.
+	end);
+	return res, remaining;
+end
+
+function mather.percent(str)
+	local res, remaining = str:gsub(patterns.num..patterns.percent, function(secondStr)
+		local newNums = mather:GetNums(secondStr);
+		return newNums[1] / 100;
 	end);
 	return res, remaining;
 end
@@ -38,7 +47,7 @@ end
 function mather.div(str)
 	local res, remaining = str:gsub(patterns.num..patterns.div..patterns.num, function(secondStr)
 		local newNums = mather:GetNums(secondStr);
-		return newNums[1] - newNums[2];
+		return newNums[1] / newNums[2];
 	end)
 	return res, remaining;
 end
@@ -66,11 +75,12 @@ end
 function mather:Calculate(str)
 	local usablePatterns = {
 		mather.parentheses;
+		mather.percent;
 		mather.mult;
 		mather.mult2;
 		mather.div;
-		mather.plus;
 		mather.minus;
+		mather.plus;
 	};
 	
 	local remainingOperations = 0;
