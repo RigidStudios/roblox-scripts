@@ -1,12 +1,12 @@
--- Author Rigid
--- Date 09/03/20
+-- Author RigidStudios
+-- Date: 09/03/20
 
 local mather = {};
 
 --[[ 
 Math Parser Api:
 
-	_math:GetNumbers(string) -->> {numbers}
+	_math:GetNumbers(string) -->> {number}
 	_math.Add(string) -->> ?results and ?remaining | ?number
 	_math.Subtract(string) -->> ?results and ?remaining | ?number
 	_math.Percent(string) -->> ?results and ?remaining | ?number
@@ -15,20 +15,23 @@ Math Parser Api:
 	_math.FormatMultiply(string) -->> string
 	_math.Parentheses(string) -->> ?results and ?remaining | ?number
 	_math:Caculate(string) -->> string
-]]
+        _math.patterns --> {string}
 
+-- Proper Usage:
+        _math:Calculate(string) -->> string
+--]]
 
 
 -- .. LuaPatterns for numbers and operations.
-local patterns = {};
-patterns.num     = "%-?%d+%.?%d*";
-patterns.mult    = "%s-%*%s-";
-patterns.mult2   = "%s-%x%s-";
-patterns.plus    = "%s-%+%s-";
-patterns.percent = "%s-%%%s-";
-patterns.minus   = "%s-%-%s-";
-patterns.div     = "%s-%/%s-";
-patterns.parentheses = "%b()"
+mather.patterns = {};
+mather.patterns.num     = "%-?%d+%.?%d*";
+mather.patterns.mult    = "%s-%*%s-";
+mather.patterns.mult2   = "%s-%x%s-";
+mather.patterns.plus    = "%s-%+%s-";
+mather.patterns.percent = "%s-%%%s-";
+mather.patterns.minus   = "%s-%-%s-";
+mather.patterns.div     = "%s-%/%s-";
+mather.patterns.parentheses = "%b()"
 
 -- .. Extract numbers from string where possible.
 function mather:GetNumbers(str)
@@ -38,7 +41,6 @@ function mather:GetNumbers(str)
 	end;
 	return numbers;
 end
-
 
 -- ADD (+)
 function mather.Add(str)
@@ -86,7 +88,7 @@ function mather.Multiply(str)
 	return res, remaining;
 end
 
--- Format (x)
+-- FORMAT_MULTIPLICATION (x)
 function mather.FormatMultiply(str)
 	return mather.Multiply(str:gsub("x", "*"));
 end
