@@ -22,7 +22,7 @@ local replicatedStorage = game:GetService("ReplicatedStorage")
 local functions = {
   addToParty=Instance.new("RemoteFunction"),
   removeFromParty=Instance.new("RemoteFunction"),
-  changePartyLeader=Instance.new("RemoteFunction),
+  changePartyLeader=Instance.new("RemoteFunction"),
   changePlayerPosition=Instance.new("RemoteFunction"),
   destroyParty=Instance.new("RemoteFunction")
 }
