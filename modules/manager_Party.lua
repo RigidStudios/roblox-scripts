@@ -40,7 +40,7 @@ for name,object in pairs(objects) do
 end
 
 -- ## Creating the functions listed in the functions table
-for name,function in pairs(functions) do
+for name,functionValue in pairs(functions) do
     if name and functionValue then
         functionValue.Parent = objects.partyNetwork
         functionValue.Name = name 
