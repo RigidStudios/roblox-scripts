@@ -41,9 +41,9 @@ end
 
 -- ## Creating the functions listed in the functions table
 for name,function in pairs(functions) do
-    if name and function then
-        function.Parent = objects.partyNetwork
-        function.Name = name 
+    if name and functionValue then
+        functionValue.Parent = objects.partyNetwork
+        functionValue.Name = name 
     end
 end
 
