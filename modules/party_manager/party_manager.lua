@@ -4,7 +4,7 @@
 local manager = {};
 local parties = {};
 
---[[ 
+--[[
 Api:  
     manager.New(string,player,arguments) -->> object
     manager.Add(player,player) -->> success,error
@@ -12,6 +12,8 @@ Api:
     manager.ChangeLeader(player,player) -->> success,error
     manager.ChangePosition(player,player) -->> success,error
     manager:Destroy(player,player) -->> success,error
+Notices:
+    Due to instancing, keep out of client replication view. Possibly include client interface.
 ]]
 
 -- Services
