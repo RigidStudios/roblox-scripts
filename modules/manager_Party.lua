@@ -4,7 +4,7 @@
 local manager = {};
 local parties = {};
 
--- [[ 
+--[[ 
 Api:  
     manager.New(string,player,arguments) -->> object
     manager.Add(player,player) -->> success,error
