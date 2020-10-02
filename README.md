@@ -1,2 +1,2 @@
-# roblox-scripts
-Roblox Lua Scripts - Contribute anything!
+# Roblox-Scripts
+Roblox Lua Scripts - Contribute anything you want!
