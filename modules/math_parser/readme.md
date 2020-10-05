@@ -30,4 +30,4 @@ print(math:Calculate("12/6")); -- 2
 print(math:Calculate("1.5*10")); -- 15
 ```
 ### Contributors
-[RigidStudios](https://github.com/RigidStudios), [CDTrix](https://github.com/CDTtrix)
+[RigidStudios](https://github.com/RigidStudios), [T-R-I-X](https://github.com/T-R-I-X)
