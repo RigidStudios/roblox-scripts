@@ -31,7 +31,7 @@ mather.patterns.plus    = "%s-%+%s-";
 mather.patterns.percent = "%s-%%%s-";
 mather.patterns.minus   = "%s-%-%s-";
 mather.patterns.div     = "%s-%/%s-";
-mather.patterns.parentheses = "%b()"
+mather.patterns.parentheses = "%b()";
 
 -- .. Extract numbers from string where possible.
 function mather:GetNumbers(str)
@@ -104,24 +104,29 @@ function mather.Parentheses(str)
 end
 
 -- Calculate whole string.
+-->> mather:Calculate(str)
+--    @params <string> str - String in which to perform operations.
+--    @returns <string> str - Performed operations.
 function mather:Calculate(str)
-	-- Patterns to perform.
+	-- Patterns to perform in proper PMDAS.
 	local usablePatterns = {
+		-- (...)
 		mather.Parentheses;
 		
+		-- %, *, x, /
 		mather.Percent;
-		mather.Multiply;
 		mather.FormatMultiply;
+		mather.Multiply;
 		mather.Divide;
 		
+		-- -, +
 		mather.Subtract;
 		mather.Add;
 	};
 	
 	local remainingOperations = 0;
-	for _, v in pairs(usablePatterns) do
-		repeat
-			str, remainingOperations = v(str);
+	for _, patternTest in ipairs(usablePatterns) do
+		repeat str, remainingOperations = patternTest(str);
 		until not remainingOperations or remainingOperations == 0;
 	end;
 	
