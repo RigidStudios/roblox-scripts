@@ -1,5 +1,5 @@
 ## Lua Math Parser
-This is a Luau based math parsing utility.
+This is a Lua based math parsing utility.
 ### API Reference
 ```lua
 --[[ 
