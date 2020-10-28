@@ -19,7 +19,7 @@ Math Parser Api:
 --]]
 ```
 ### Usage
-*Roblox LUAU Specific*
+*Roblox LUA Specific*
 ```lua
 -- Require the math parsing module.
 local math = require(math_parser);
