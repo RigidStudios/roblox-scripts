@@ -1,11 +1,5 @@
--- ORIGINAL
-function splitToWords(str)
-    local t = {};
-    for i in str:gmatch("%S+") do
-        table.insert(t, i);
-    end;
-    return t;
-end
+local util = require(util)
+local splitToWords = util.splitToWords;
 
 -- Parsing Patterns/Functions
 local parsingPatterns = {
