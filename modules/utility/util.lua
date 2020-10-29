@@ -17,3 +17,19 @@ utils.switch = function(condition)
     end;
   end;
 end);
+
+--[[
+  USAGE:
+    _utils.splitToWords("Hey there!")
+    -- Output:
+      {"Hey", "there!"}
+--]]
+utils.splitToWords = function(str)
+    local t = {};
+    for i in str:gmatch("%S+") do
+        table.insert(t, i);
+    end;
+    return t;
+end
+
+return utils;
