@@ -20,7 +20,7 @@ local parsingPatterns = {
     end;
 }
 
-function parseStr(cmdstr)
+function process(cmdstr)
     local commandUsed = splitToWords(cmdstr)[1];
     
     local parser = { command = cmdstr; commandName = commandUsed; indexes = {}; };
@@ -33,13 +33,13 @@ function parseStr(cmdstr)
         -- Start at 0 to allow direct-return to not offset NextOfType.
         local currIndex = 0;
         for ofType in parsingPatterns[typeName](self.command) do
-            parser.indexes[typeName] = parser.indexes[typeName] + 1;
+            currIndex = currIndex + 1;
             if currIndex == parser.indexes[typeName] then
+                parser.indexes[typeName] = parser.indexes[typeName] + 1;
                 return ofType;
             end;
-            currIndex = currIndex + 1;
         end;
-    end
+    end;
     
     -- Returns a table
     function parser:AllOfType(typeName)
@@ -58,4 +58,4 @@ function parseStr(cmdstr)
     return parser;
 end;
 
-return parseStr;
+return process;
