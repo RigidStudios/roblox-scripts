@@ -40,7 +40,7 @@ function mather:GetNumbers(str)
 		table.insert(numbers, tonumber(number));
 	end;
 	return numbers;
-end
+end;
 
 -- ADD (+)
 function mather.Add(str)
@@ -49,7 +49,7 @@ function mather.Add(str)
 		return newNums[1] + newNums[2];
 	end);
 	return res, remaining;
-end
+end;
 
 -- MINUS (-)
 function mather.Subtract(str)
@@ -59,7 +59,7 @@ function mather.Subtract(str)
 		return newNums[1] - newNums[2];
 	end);
 	return res, remaining;
-end
+end;
 
 -- PERCENT (%)
 function mather.Percent(str)
@@ -68,30 +68,30 @@ function mather.Percent(str)
 		return newNums[1] / 100;
 	end);
 	return res, remaining;
-end
+end;
 
 -- DIVISION (/)
 function mather.Divide(str)
 	local res, remaining = str:gsub(patterns.num..patterns.div..patterns.num, function(secondStr)
 		local newNums = mather:GetNumbers(secondStr);
 		return newNums[1] / newNums[2];
-	end)
+	end);
 	return res, remaining;
-end
+end;
 
 -- MULTIPLICATION (*)
 function mather.Multiply(str)
 	local res, remaining = str:gsub(patterns.num..patterns.mult..patterns.num, function(secondStr)
 		local newNums = mather:GetNumbers(secondStr);
 		return newNums[1] * newNums[2];
-	end)
+	end);
 	return res, remaining;
-end
+end;
 
 -- FORMAT_MULTIPLICATION (x)
 function mather.FormatMultiply(str)
 	return mather.Multiply(str:gsub("x", "*"));
-end
+end;
 
 -- PARENTHESES ((...))
 function mather.Parentheses(str)
@@ -99,9 +99,9 @@ function mather.Parentheses(str)
 		-- Remove parentheses to re-calculate.
 		secondStr = secondStr:sub(2, -2);
 		return mather:Calculate(secondStr);
-	end)
+	end);
 	return res, remaining;
-end
+end;
 
 -- Calculate whole string.
 -->> mather:Calculate(str)
