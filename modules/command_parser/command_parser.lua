@@ -64,4 +64,4 @@ function parseStr(cmdstr)
     return parser;
 end;
 
-
+return parseStr;
