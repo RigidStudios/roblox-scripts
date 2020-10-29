@@ -11,7 +11,8 @@ utils.switch = function(condition)
   return function(cases)
     for check, func in pairs(cases) do
       if check == condition and func then
-        func();
+        local success, err = pcall(func);
+        return success;
         break;
       end;
     end;
@@ -30,6 +31,6 @@ utils.splitToWords = function(str)
         table.insert(t, i);
     end;
     return t;
-end
+end;
 
 return utils;
