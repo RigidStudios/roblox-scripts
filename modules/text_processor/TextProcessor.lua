@@ -6,13 +6,12 @@ TextProcessor.Patterns = {
 
 TextProcessor.Features = {
 	["hl"] = {"b", "font color='rgb(218,165,32)'"};
-	-- Add extra tags for developer laziness.
 }
 
 function TextProcessor.specialConcat(tab, joinStr: string)
 	local str = "";
 	for i, addText in pairs(tab) do
-		str += addText:split(" ")[1] + (i < #tab and joinStr or "");
+		str ..= addText:split(" ")[1] .. (i < #tab and joinStr or "");
 	end;
 	return str;
 end
@@ -26,10 +25,10 @@ function TextProcessor:Make(text: string, index: number): string
 	
 	-- FEATURES
 	for used, template in pairs(self.Features) do
-		local feature = "<" + table.concat(template, "><") + ">";
-		text = text:gsub("<" + used + ">", feature); -- Add Opening tags for 'used'
-		local featureCloser = "<" + self.specialConcat(template, "><") + ">";
-		text = text:gsub("</" + used + ">", featureCloser); -- Add Closing tags for 'used'
+		local feature = "<" .. table.concat(template, "><") .. ">";
+		text = text:gsub("<" .. used .. ">", feature); -- Add Opening tags for 'used'
+		local featureCloser = "<" .. self.specialConcat(template, "><") .. ">";
+		text = text:gsub("</" .. used .. ">", featureCloser); -- Add Closing tags for 'used'
 	end;
 	
 	return text, isTag;
