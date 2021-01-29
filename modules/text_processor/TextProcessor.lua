@@ -6,6 +6,7 @@ TextProcessor.Patterns = {
 
 TextProcessor.Features = {
 	["hl"] = {"b", "font color='rgb(218,165,32)'"};
+	-- Add extra tags for developer laziness.
 }
 
 function TextProcessor.specialConcat(tab, joinStr: string)
@@ -91,7 +92,11 @@ function TextProcessor:SimpleSlice(text, index)
 		end
 		str ..= ">";
 	end;
-
+	
+	if tagIsClosing then
+		str = str:sub(1, #str - #closedTag - 1);
+	end
+	
 	for i, v in pairs(reverseTab(unclosedTags)) do
 		-- Close any remaining tags in the correct order.
 		str ..= "</" .. self.firstWord(v) .. ">";
