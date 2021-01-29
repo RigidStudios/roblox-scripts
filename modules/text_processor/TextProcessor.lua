@@ -4,18 +4,24 @@ TextProcessor.Patterns = {
 	tagPattern = {"<(.-)>", "</(!)>"};
 };
 
+-- Can be used in any string processed by the TextProcessor.
 TextProcessor.Features = {
 	["hl"] = {"b", "font color='rgb(218,165,32)'"};
+	--[[ Add more such as:
+	[<tag>] = <replacementTags[]>;
+	]]
 }
 
+-- Reverse only first-word concatenation.
 function TextProcessor.specialConcat(tab, joinStr: string)
 	local str = "";
 	for i, addText in pairs(reverseTab(tab)) do
 		str ..= addText:split(" ")[1] .. (i < #tab and joinStr or "");
 	end;
 	return str;
-end
+end;
 
+-- Create string (optional slicing).
 function TextProcessor:Make(text: string, index: number): string
 	local isTag;
 	
@@ -47,6 +53,9 @@ function TextProcessor.firstWord(text)
 	return text:split(" ")[1];
 end
 
+-- Slice text such as 
+-- text#sub(1, index) == TextProcessor#SimpleSlice(index)
+-- However RichText tags are properly handled for a roblox context.
 function TextProcessor:SimpleSlice(text, index)
 	local unclosedTags = {};
 	local chars = text:sub(1, index):split("");
@@ -104,9 +113,10 @@ function TextProcessor:SimpleSlice(text, index)
 	return str, tagIsOpening or tagIsClosing;
 end;
 
--- object: object to affect, by default uses 'Text' property.
+-- object: object to affect, by default uses 'Text' property
 -- text: text to typewrite
--- prop: override 'object' property affected.
+-- prop: override 'object' property affected
+-- length: time to wait
 function TextProcessor:Typewriter(object, text: string, config: {prop: string?; length: number?})
 	config = config or {}; -- Save on an if statement.
 	for i = 1, #text do
