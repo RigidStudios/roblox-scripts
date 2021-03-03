@@ -10,7 +10,7 @@ TextProcessor.Features = {
 	--[[ Add more such as:
 	[<tag>] = <replacementTags[]>;
 	]]
-}
+};
 
 -- Reverse only first-word concatenation.
 function TextProcessor.specialConcat(tab, joinStr: string)
@@ -51,7 +51,7 @@ end;
 
 function TextProcessor.firstWord(text)
 	return text:split(" ")[1];
-end
+end;
 
 -- Slice text such as 
 -- text#sub(1, index) == TextProcessor#SimpleSlice(index)
@@ -79,7 +79,7 @@ function TextProcessor:SimpleSlice(text, index)
 			tagIsClosing = true;
 		elseif char == ">" and tagIsClosing then -- Tag closing closing.
 			tagIsClosing = false;
-			table.remove(unclosedTags, table.find(unclosedTags, closedTag))
+			table.remove(unclosedTags, table.find(unclosedTags, closedTag));
 		elseif tagIsClosing then -- Tag is closing.
 			closedTag ..= char;
 		end;
@@ -91,19 +91,19 @@ function TextProcessor:SimpleSlice(text, index)
 	if tagIsOpening then
 		table.insert(unclosedTags, unclosedTag ~= "" and unclosedTag or "unfinished");
 		
-		local unclosedDifference = #unclosedTag - #self.firstWord(unclosedTag)
+		local unclosedDifference = #unclosedTag - #self.firstWord(unclosedTag);
 		
 		if unclosedTag == "" then
 			str ..= "unfinished";
 		elseif unclosedDifference > 0 then
-			str = str:sub(1, #str - unclosedDifference)
+			str = str:sub(1, #str - unclosedDifference);
 		end
 		str ..= ">";
 	end;
 	
 	if tagIsClosing then
 		str = str:sub(1, #str - #closedTag - 1);
-	end
+	end;
 	
 	for i, v in pairs(reverseTab(unclosedTags)) do
 		-- Close any remaining tags in the correct order.
