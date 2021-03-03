@@ -24,11 +24,11 @@ end;
 -- Create string (optional slicing).
 function TextProcessor:Make(text: string, index: number): string
 	local isTag;
-	
+
 	if index and index > 0 then 		-- To be sliced
 		text, isTag = self:SimpleSlice(text, index);
 	end;
-	
+
 	-- FEATURES
 	for used, template in pairs(self.Features) do
 		local feature = "<" .. table.concat(template, "><") .. ">";
@@ -36,7 +36,7 @@ function TextProcessor:Make(text: string, index: number): string
 		local featureCloser = "</" .. self.specialConcat(template, "></") .. ">";
 		text = text:gsub("</" .. used .. ">", featureCloser); -- Add Closing tags for 'used'
 	end;
-	
+
 	return text, isTag;
 end;
 
@@ -90,9 +90,9 @@ function TextProcessor:SimpleSlice(text, index)
 
 	if tagIsOpening then
 		table.insert(unclosedTags, unclosedTag ~= "" and unclosedTag or "unfinished");
-		
+
 		local unclosedDifference = #unclosedTag - #self.firstWord(unclosedTag);
-		
+
 		if unclosedTag == "" then
 			str ..= "unfinished";
 		elseif unclosedDifference > 0 then
@@ -100,16 +100,18 @@ function TextProcessor:SimpleSlice(text, index)
 		end
 		str ..= ">";
 	end;
-	
+
 	if tagIsClosing then
 		str = str:sub(1, #str - #closedTag - 1);
 	end;
 	
-	for i, v in pairs(reverseTab(unclosedTags)) do
+	local toClose = reverseTab(unclosedTags);
+	for i, v in pairs(toClose) do
 		-- Close any remaining tags in the correct order.
-		str ..= "</" .. self.firstWord(v) .. ">";
+		local firstWord = self.firstWord(v);
+		str ..= "</" .. firstWord .. ">";
 	end;
-
+	
 	return str, tagIsOpening or tagIsClosing;
 end;
 
@@ -121,8 +123,8 @@ function TextProcessor:Typewriter(object, text: string, config: {prop: string?; 
 	config = config or {}; -- Save on an if statement.
 	for i = 1, #text do
 		local sliced, inTag = self:Make(text, i);
-		object[config.prop or "Text"] = sliced;
 		
+		object[config.prop or "Text"] = sliced;
 		if not inTag then
 			wait(config.length or .04);
 		end;
